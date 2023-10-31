@@ -5,8 +5,7 @@ import Image from 'next/image';
 
 export default function Page() {
   return (
-    // ...
-    <p
+    <div
       className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
     >
 
@@ -36,7 +35,7 @@ export default function Page() {
         Next.js Learn Course
       </a>
       , brought to you by Vercel.
-    </p>
+    </div>
     // ...
   );
 }
