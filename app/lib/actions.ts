@@ -14,8 +14,10 @@ const InvoiceSchema = z.object({
   });
 
 const CreateInvoice = InvoiceSchema.omit({ id: true, date: true });
+const UpdateInvoice = InvoiceSchema.omit({ date: true });
 
 export async function createInvoice(formData: FormData) {
+    console.log(formData);
     const { customerId, amount, status } = CreateInvoice.parse({
       customerId: formData.get('customerId'),
       amount: formData.get('amount'),
@@ -31,7 +33,36 @@ export async function createInvoice(formData: FormData) {
 
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
-  // Test it out:
-  console.log(rawFormData);
-  console.log(typeof rawFormData.amount);
+
+}
+
+export async function updateInvoice(id: string, formData: FormData) {
+
+
+  console.log( id ); //die ID der Rechnung 
+  console.log( formData.get('customerId') );
+  console.log( formData.get('amount') );
+  console.log( formData.get('status') );
+
+  // const { customerId, amount, status } = UpdateInvoice.parse({
+  //   customerId: formData.get('customerId'),
+  //   amount: formData.get('amount'),
+  //   status: formData.get('status'),
+  // });
+ 
+  const customerId= formData.get('customerId');
+  const amount=formData.get('amount');
+  const status = formData.get('status');
+  const amountInCents = amount * 100;
+ 
+  // lets do this when it validates:
+
+  await sql`
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
+  `;
+ 
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
 }
