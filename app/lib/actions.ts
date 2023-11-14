@@ -44,15 +44,13 @@ export async function updateInvoice(id: string, formData: FormData) {
   console.log( formData.get('amount') );
   console.log( formData.get('status') );
 
-  // const { customerId, amount, status } = UpdateInvoice.parse({
-  //   customerId: formData.get('customerId'),
-  //   amount: formData.get('amount'),
-  //   status: formData.get('status'),
-  // });
+  const { customerId, amount, status } = UpdateInvoice.parse({
+    id: id,
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
  
-  const customerId= formData.get('customerId');
-  const amount=formData.get('amount');
-  const status = formData.get('status');
   const amountInCents = amount * 100;
  
   // lets do this when it validates:
